@@ -15,6 +15,12 @@ pnpm-lock.yaml
 .venv
 .actrc
 
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
 webview-ui/src/**/*.js
 webview-ui/src/**/*.js.map
 

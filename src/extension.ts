@@ -194,20 +194,20 @@ export async function activate(context: vscode.ExtensionContext) {
 					
 					progress.report({ increment: 30, message: "Analyzing chat messages..." });
 					
-					// Import and run the summarization service
-					const { summarizeChatHistory } = await import('./core/services/summarizeChatHistory')
+					// Import and run the AI summarization service
+					const { summarizeChatHistoryWithAI } = await import('./core/services/aiChatSummarizer')
 					
-					progress.report({ increment: 60, message: "Generating comprehensive summary..." });
+					progress.report({ increment: 60, message: "Generating AI-powered summary..." });
 					
-					// Run summarization in background
-					await summarizeChatHistory(controller)
+					// Run AI summarization in background with extension path
+					await summarizeChatHistoryWithAI(controller, context.extensionPath)
 					
-					progress.report({ increment: 100, message: "Summary complete!" });
+					progress.report({ increment: 100, message: "AI summary complete!" });
 				});
 				
 				// Show success message
 				const result = await vscode.window.showInformationMessage(
-					"✅ Chat Summary Complete!\n\nA comprehensive summary has been created in 'summarize.json' with 70-80% accuracy of your conversation context.",
+					"✅ AI Chat Summary Complete!\n\nAn intelligent AI-powered summary has been created in 'ai-summarize.json' with high accuracy analysis of your conversation.",
 					{ modal: false },
 					"Open File", "View Folder"
 				)
@@ -226,7 +226,7 @@ export async function activate(context: vscode.ExtensionContext) {
 						const state = await activeController.getStateToPostToWebview()
 						const workspaceRoot = state.workspaceRoots[state.primaryRootIndex]?.path || state.workspaceRoots[0]?.path
 						if (workspaceRoot) {
-							const summaryPath = vscode.Uri.file(workspaceRoot + '/summarize.json')
+							const summaryPath = vscode.Uri.file(workspaceRoot + '/ai-summarize.json')
 							await vscode.window.showTextDocument(summaryPath)
 						}
 					}
